@@ -24,6 +24,10 @@ def contact():
 def privacy():
     return render_template('privacy.html')
 
+@app.route('/discord')
+def discord():
+    return render_template('discord.html')
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
