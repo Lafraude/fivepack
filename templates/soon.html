@@ -337,13 +337,12 @@
     </div>
 
     <script>
-        // Définir la date de lancement (exemple: 30 jours à partir d'aujourd'hui)
-        const launchDate = new Date();
-        launchDate.setDate(launchDate.getDate() + 30);
+        // Définir une date de lancement fixe (20 mai 2025)
+        const launchDate = new Date("May 20, 2025 12:00:00").getTime();
         
         // Mettre à jour le compte à rebours
         function updateCountdown() {
-            const now = new Date();
+            const now = new Date().getTime();
             const diff = launchDate - now;
             
             if (diff <= 0) {
