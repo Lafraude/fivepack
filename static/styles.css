@@ -1,0 +1,129 @@
+/* Reset styles */
+body, h1, h2, h3, p, a, ul, li, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --navbarcolor: #1a2d42;
+    --footercolor: #1a2d42;
+    --backgroundcolor: #2e4156;
+    --colortext: #d4d8dd;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: var(--backgroundcolor);
+    color: var(--colortext);
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: var(--navbarcolor);
+    color: var(--colortext);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar a {
+    color: var(--colortext);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #ff9800;
+}
+
+/* Hero section */
+.hero {
+    background: url('/static/.png') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--colortext);
+    padding: 2rem;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.hero button {
+    background-color: #ff9800;
+    color: var(--colortext);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.hero button:hover {
+    background-color: #e68900;
+}
+
+/* Main content */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--colortext);
+}
+
+p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--colortext);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--footercolor);
+    color: var(--colortext);
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+.footer a {
+    color: #ff9800;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
