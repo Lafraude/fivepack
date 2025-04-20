@@ -1,4 +1,5 @@
 from flask import Flask, render_template, send_file
+import os
 
 app = Flask(__name__)
 
@@ -14,7 +15,6 @@ def download():
 def about():
     return render_template('about.html')
 
-
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
@@ -24,4 +24,5 @@ def privacy():
     return render_template('privacy.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
