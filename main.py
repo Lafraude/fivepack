@@ -9,7 +9,8 @@ def home():
 
 @app.route('/download')
 def download():
-    return send_file('yapasencorewoula.zip', as_attachment=True)
+    return render_template('soon.html')
+    # return send_file('yapasencorewoula.zip', as_attachment=True)
 
 @app.route('/about')
 def about():
