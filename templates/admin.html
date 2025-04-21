@@ -1,0 +1,87 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - FIVEPACK</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+        h1 { color: #333; }
+        .message {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .message p { margin: 5px 0; }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Messages reçus</h1>
+    <div id="messages"></div>
+
+    <script>
+        async function loadMessages() {
+            const res = await fetch("/api/messages");
+            const messages = await res.json();
+
+            const container = document.getElementById("messages");
+            container.innerHTML = "";
+
+            messages.forEach((msg, index) => {
+                const div = document.createElement("div");
+                div.className = "message";
+                div.innerHTML = `
+                    <p><strong>De :</strong> ${msg.name} (${msg.email})</p>
+                    <p><strong>Date :</strong> ${new Date(msg.date).toLocaleString()}</p>
+                    <p><strong>Message :</strong> ${msg.message}</p>
+                    <textarea placeholder="Votre réponse..."></textarea>
+                    <button onclick="sendReply('${msg.email}', this, ${index})">Envoyer la réponse</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        async function sendReply(to, button, index) {
+            const textarea = button.previousElementSibling;
+            const reply = textarea.value;
+            if (!reply.trim()) return alert("Veuillez écrire une réponse");
+
+            const res = await fetch("/api/reply", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ to, reply, index })
+            });
+
+            if (res.ok) {
+                alert("Réponse envoyée !");
+                loadMessages();
+            } else {
+                alert("Erreur lors de l'envoi.");
+            }
+        }
+
+        loadMessages();
+    </script>
+</body>
+</html>

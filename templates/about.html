@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -137,6 +137,11 @@
             color: #60a5fa;
         }
         
+        /* .nav-links a.active {
+            color: #60a5fa;
+            border-bottom: 2px solid #60a5fa;
+        } */
+        
         /* Hero Section */
         .hero {
             display: flex;
@@ -145,7 +150,7 @@
             justify-content: center;
             text-align: center;
             padding: 6rem 2rem;
-            min-height: 60vh;
+            min-height: 30vh;
             background-color: rgba(15, 25, 35, 0.5);
             backdrop-filter: blur(5px);
         }
@@ -163,23 +168,6 @@
             font-size: 1.5rem;
             margin-bottom: 2rem;
             color: #e5e7eb;
-        }
-        
-        .hero button {
-            background: linear-gradient(90deg, #2563eb, #4f46e5);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .hero button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
         }
         
         /* Main Content */
@@ -204,6 +192,47 @@
             font-size: 1.1rem;
             line-height: 1.7;
             color: #e5e7eb;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .team-member {
+            background-color: rgba(30, 41, 59, 0.7);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+        
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid #60a5fa;
+        }
+        
+        .team-member h3 {
+            color: #60a5fa;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member p.role {
+            color: #93c5fd;
+            font-style: italic;
+            margin-bottom: 1rem;
         }
         
         /* Footer */
@@ -241,6 +270,10 @@
             .hero p {
                 font-size: 1.2rem;
             }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 480px) {
@@ -274,9 +307,9 @@
     <div class="navbar">
         <div class="logo">FIVEPACK</div>
         <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/download">Download</a>
+            <a href="/">Accueil</a>
+            <a href="/about" class="active">À propos</a>
+            <a href="/download">Télécharger</a>
             <a href="/contact">Contact</a>
             <a href="/discord">Nous rejoindre</a>
         </div>
@@ -284,17 +317,45 @@
 
     <!-- Hero Section -->
     <div class="hero">
-
+        <h1>À propos de FIVEPACK</h1>
+        <p>Qui nous sommes et ce que nous faisons</p>
     </div>
 
     <!-- Main Content -->
     <div class="container">
+        <h2>Notre Mission</h2>
+        <p>FIVEPACK a été créé en 2025 avec une vision claire : développer des solutions innovantes qui améliorent l'expérience de jeu. Notre équipe est passionnée par le développement d'outils qui permettent aux joueurs et aux streamers de s'épanouir, combinant technologie de pointe et design intuitif.</p>
         
+        <p>Nous croyons en la transparence, la collaboration communautaire et l'amélioration continue. Chaque fonctionnalité que nous implémentons est conçue en tenant compte des besoins de nos utilisateurs, et nous nous engageons activement avec notre communauté pour garantir que nos produits répondent aux normes les plus élevées.</p>
+        
+        <h2>Rencontrez l'Équipe</h2>
+        <div class="about-grid">
+            <div class="team-member">
+                <img src="/static/24cb6b74af416a4ffda07d7a56f01f9c.webp" alt="Membre de l'équipe">
+                <h3>Lafraude</h3>
+                <p class="role">Fondateur & Développeur Principal</p>
+                <p>Je suis nouveau dans le développement de logiciels, et j’aimerais aider les gens à utiliser FiveM plus facilement, sans devoir regarder des tutoriels. Voici mon projet : avec plus de 1400 heures passées sur FiveM, je pense pouvoir aider un peu, à ma manière.</p>
+            </div>
+            
+            <!-- <div class="team-member">
+                <img src="/api/placeholder/120/120" alt="Membre de l'équipe">
+                <h3>Sophie Chen</h3>
+                <p class="role">Designer UI/UX</p>
+                <p>Sophie apporte créativité et réflexion centrée sur l'utilisateur à notre équipe, créant des interfaces intuitives qui rendent nos outils complexes accessibles à tous.</p>
+            </div>
+            
+            <div class="team-member">
+                <img src="/api/placeholder/120/120" alt="Membre de l'équipe">
+                <h3>Marco Rossi</h3>
+                <p class="role">Community Manager</p>
+                <p>Marco fait le lien entre notre équipe de développement et les utilisateurs, recueillant les retours et s'assurant que la voix de notre communauté est entendue dans chaque décision que nous prenons.</p>
+            </div> -->
+        </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
-        <p>&copy; 2025 MySite. All rights reserved. <a href="/privacy">Privacy Policy</a></p>
+        <p>&copy; 2025 FIVEPACK. Tous droits réservés. <a href="/privacy">Politique de confidentialité</a></p>
     </div>
 </body>
 </html>

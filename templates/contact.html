@@ -258,6 +258,99 @@
                 font-size: 2rem;
             }
         }
+
+        /* Form Styles */
+        #contactForm {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 0.8rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        #contactForm div {
+            margin-bottom: 1.5rem;
+        }
+
+        #contactForm label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #60a5fa;
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        #contactForm input,
+        #contactForm textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 0.5rem;
+            color: #e5e7eb;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        #contactForm input:focus,
+        #contactForm textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.3);
+            background-color: rgba(15, 23, 42, 0.9);
+        }
+
+        #contactForm input::placeholder,
+        #contactForm textarea::placeholder {
+            color: #6b7280;
+        }
+
+        #contactForm button {
+            width: 100%;
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            letter-spacing: 0.5px;
+            margin-top: 1rem;
+        }
+
+        #contactForm button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        #contactForm button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #contactForm {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #contactForm {
+                padding: 1rem;
+            }
+
+            #contactForm button {
+                padding: 0.8rem;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -274,27 +367,65 @@
     <div class="navbar">
         <div class="logo">FIVEPACK</div>
         <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/download">Download</a>
+            <a href="/">Accueil</a>
+            <a href="/about" class="active">À propos</a>
+            <a href="/download">Télécharger</a>
             <a href="/contact">Contact</a>
             <a href="/discord">Nous rejoindre</a>
         </div>
     </div>
 
-    <!-- Hero Section -->
     <div class="hero">
-
+        <h1>Contactez-nous</h1>
+        <p>Une question ? Une remarque ? Nous sommes à votre écoute.</p>
     </div>
 
     <!-- Main Content -->
     <div class="container">
-        
+        <form id="contactForm">
+            <div style="margin-bottom: 1rem;">
+                <label for="name">Nom</label><br>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label for="email">Email</label><br>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label for="message">Message</label><br>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit">Envoyer</button>
+        </form>
     </div>
 
     <!-- Footer -->
     <div class="footer">
-        <p>&copy; 2025 MySite. All rights reserved. <a href="/privacy">Privacy Policy</a></p>
+        <p>&copy; 2025 FIVEPACK. Tous droits réservés. <a href="/privacy">Politique de confidentialité</a></p>
     </div>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            const data = {
+                name: this.name.value,
+                email: this.email.value,
+                message: this.message.value
+            };
+        
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+        
+            if (res.ok) {
+                alert("Message envoyé !");
+                this.reset();
+            } else {
+                alert("Erreur lors de l'envoi");
+            }
+        });
+    </script>
 </body>
 </html>
