@@ -1,4 +1,5 @@
 from flask import Flask, render_template, send_file, request, jsonify
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 import os
 import json
@@ -6,7 +7,7 @@ import smtplib
 from email.message import EmailMessage
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
 CORS(app)
 
 # Configuration
@@ -41,10 +42,13 @@ def privacy():
 def discord():
     return render_template('discord.html')
 
-@app.route('/adminnnnnnnnnnnnnnnnnn1234567gagagagagagagagaggagagagqsdqsldkqhsdzaeouiayze')
+@app.route('/admin')
 def admin():
     return render_template('admin.html')
 
+@app.route('/config.json')
+def serve_config():
+    return send_from_directory('static', 'config.json')
 
 # --- API MESSAGES ---
 

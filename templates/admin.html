@@ -1,87 +1,617 @@
-<!-- admin.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - FIVEPACK</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-        h1 { color: #333; }
-        .message {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .message p { margin: 5px 0; }
-        textarea {
+        
+        body {
+            background-color: #0f1923;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
-        button {
-            margin-top: 10px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            background: #007BFF;
+        
+        .square {
+            position: absolute;
+            border-radius: 4px;
+            opacity: 0.2;
+            animation: moveUpDown 15s infinite ease-in-out;
+        }
+        
+        .square:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background-color: #2563eb;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+        
+        .square:nth-child(2) {
+            width: 100px;
+            height: 100px;
+            background-color: #4f46e5;
+            left: 25%;
+            animation-delay: 3s;
+            animation-duration: 16s;
+        }
+        
+        .square:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            background-color: #3b82f6;
+            left: 45%;
+            animation-delay: 2s;
+            animation-duration: 20s;
+        }
+        
+        .square:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            background-color: #6366f1;
+            left: 65%;
+            animation-delay: 5s;
+            animation-duration: 17s;
+        }
+        
+        .square:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            background-color: #818cf8;
+            left: 85%;
+            animation-delay: 1s;
+            animation-duration: 19s;
+        }
+        
+        @keyframes moveUpDown {
+            0% {
+                top: -10%;
+                transform: rotate(0deg);
+            }
+            50% {
+                top: 110%;
+                transform: rotate(180deg);
+            }
+            100% {
+                top: -10%;
+                transform: rotate(360deg);
+            }
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background-color: rgba(15, 25, 35, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #60a5fa;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 1rem;
+        }
+        
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+        
+        .login-container {
+            max-width: 450px;
+            margin: 5rem auto;
+            padding: 2.5rem;
+            background-color: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            transform: translateY(0);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-header h2 {
+            font-size: 2rem;
+            background: linear-gradient(90deg, #60a5fa, #818cf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            color: #9ca3af;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e5e7eb;
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 1rem;
+            background-color: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            border-radius: 0.5rem;
+            color: #e5e7eb;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+        }
+        
+        .login-button {
+            width: 100%;
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
             color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
             cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        button:hover {
-            background: #0056b3;
+        
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .error-message {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid #ef4444;
+            display: none;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: rgba(15, 25, 35, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .admin-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .admin-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #60a5fa, #818cf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-header p {
+            color: #9ca3af;
+            font-size: 1.1rem;
+        }
+        
+        .message-card {
+            background-color: rgba(30, 41, 59, 0.8);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #60a5fa;
+            transition: transform 0.3s ease;
+        }
+        
+        .message-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .message-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .message-from {
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+        
+        .message-email {
+            color: #60a5fa;
+            font-style: italic;
+        }
+        
+        .message-date {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+        
+        .message-content {
+            background-color: rgba(15, 23, 42, 0.7);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            color: #e5e7eb;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+        }
+        
+        .reply-area {
+            margin-top: 1rem;
+        }
+        
+        .reply-textarea {
+            width: 100%;
+            padding: 1rem;
+            background-color: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            border-radius: 0.5rem;
+            color: #e5e7eb;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s;
+        }
+        
+        .reply-textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+        }
+        
+        .reply-button {
+            margin-top: 1rem;
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .reply-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .no-messages {
+            text-align: center;
+            padding: 3rem;
+            color: #9ca3af;
+            font-style: italic;
+        }
+        
+        .logout-button {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-left: 1rem;
+        }
+        
+        .logout-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(220, 38, 38, 0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(15, 25, 35, 0.8);
+            backdrop-filter: blur(10px);
+            margin-top: auto;
+        }
+        
+        .footer p {
+            color: #9ca3af;
+        }
+        
+        #admin-panel {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .message-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .admin-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .admin-header h1 {
+                font-size: 2rem;
+            }
+            
+            .login-container {
+                margin: 3rem 1rem;
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Messages reçus</h1>
-    <div id="messages"></div>
+    <div class="background-animation">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+    </div>
+
+    <div class="navbar">
+        <div class="logo">FIVEPACK</div>
+        <div class="nav-links">
+            <a href="/">Accueil</a>
+            <a href="/admin" class="active">Administration</a>
+            <a href="/download">Télécharger</a>
+            <a href="/contact">Contact</a>
+            <a href="/discord">Nous rejoindre</a>
+        </div>
+    </div>
+
+    <div id="login-form" class="login-container">
+        <div class="login-header">
+            <h2>Connexion Admin</h2>
+            <p>Veuillez vous authentifier pour continuer</p>
+        </div>
+        
+        <div id="error-message" class="error-message">
+            Identifiants incorrects. Veuillez réessayer.
+        </div>
+        
+        <div class="input-group">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur">
+        </div>
+        
+        <div class="input-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" placeholder="Entrez votre mot de passe">
+        </div>
+        
+        <button id="login-button" class="login-button">Se connecter</button>
+    </div>
+
+    <div id="admin-panel">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1>Panneau d'administration</h1>
+                <p>Gestion des messages utilisateurs <button id="logout-button" class="logout-button">Déconnexion</button></p>
+            </div>
+            
+            <div id="messages">
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 FIVEPACK. Tous droits réservés. ADMIN PANEL</p>
+    </div>
 
     <script>
+
+        let ADMIN_USERNAME = '';
+        let ADMIN_PASSWORD = '';
+
+        fetch('/config.json')
+          .then((response) => response.json())
+          .then((config) => {
+            ADMIN_USERNAME = config.ADMIN_USERNAME;
+            ADMIN_PASSWORD = config.ADMIN_PASSWORD;
+            checkAuth(); 
+          })
+          .catch((error) => console.error('Erreur de chargement de config.json', error));
+      
+        function checkAuth() {
+          const isAuthenticated = sessionStorage.getItem('adminAuthenticated') === 'true';
+        
+          if (isAuthenticated) {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            loadMessages();
+          } else {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+          }
+        }
+
+        function login() {
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
+          const errorMessage = document.getElementById('error-message');
+        
+          if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+            sessionStorage.setItem('adminAuthenticated', 'true');
+            errorMessage.style.display = 'none';
+            checkAuth();
+          } else {
+            errorMessage.style.display = 'block';
+            document.getElementById('password').value = '';
+          }
+        }
+
+        function logout() {
+          sessionStorage.removeItem('adminAuthenticated');
+          checkAuth();
+        }
         async function loadMessages() {
-            const res = await fetch("/api/messages");
-            const messages = await res.json();
+            try {
+                const res = await fetch("/api/messages");
+                if (!res.ok) throw new Error("Erreur lors du chargement des messages");
+                
+                const messages = await res.json();
+                const container = document.getElementById("messages");
+                container.innerHTML = "";
 
-            const container = document.getElementById("messages");
-            container.innerHTML = "";
+                if (messages.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-messages">
+                            <p>Aucun message à afficher pour le moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
 
-            messages.forEach((msg, index) => {
-                const div = document.createElement("div");
-                div.className = "message";
-                div.innerHTML = `
-                    <p><strong>De :</strong> ${msg.name} (${msg.email})</p>
-                    <p><strong>Date :</strong> ${new Date(msg.date).toLocaleString()}</p>
-                    <p><strong>Message :</strong> ${msg.message}</p>
-                    <textarea placeholder="Votre réponse..."></textarea>
-                    <button onclick="sendReply('${msg.email}', this, ${index})">Envoyer la réponse</button>
+                messages.forEach((msg, index) => {
+                    const date = new Date(msg.date).toLocaleString('fr-FR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    const div = document.createElement("div");
+                    div.className = "message-card";
+                    div.innerHTML = `
+                        <div class="message-info">
+                            <div>
+                                <span class="message-from">${msg.name}</span>
+                                <span class="message-email">&lt;${msg.email}&gt;</span>
+                            </div>
+                            <div class="message-date">${date}</div>
+                        </div>
+                        <div class="message-content">${msg.message}</div>
+                        <div class="reply-area">
+                            <textarea class="reply-textarea" placeholder="Votre réponse..."></textarea>
+                            <button class="reply-button" onclick="sendReply('${msg.email}', this, ${index})">
+                                Envoyer la réponse
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                console.error("Erreur:", error);
+                document.getElementById("messages").innerHTML = `
+                    <div class="no-messages">
+                        <p>Impossible de charger les messages. Veuillez réessayer plus tard.</p>
+                    </div>
                 `;
-                container.appendChild(div);
-            });
+            }
         }
 
         async function sendReply(to, button, index) {
             const textarea = button.previousElementSibling;
             const reply = textarea.value;
-            if (!reply.trim()) return alert("Veuillez écrire une réponse");
+            
+            if (!reply.trim()) {
+                alert("Veuillez écrire une réponse avant d'envoyer");
+                return;
+            }
 
-            const res = await fetch("/api/reply", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ to, reply, index })
-            });
+            button.disabled = true;
+            button.textContent = "Envoi en cours...";
+            
+            try {
+                const res = await fetch("/api/reply", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ to, reply, index })
+                });
 
-            if (res.ok) {
-                alert("Réponse envoyée !");
-                loadMessages();
-            } else {
-                alert("Erreur lors de l'envoi.");
+                if (res.ok) {
+                    alert("Réponse envoyée avec succès !");
+                    loadMessages();
+                } else {
+                    throw new Error("Erreur lors de l'envoi");
+                }
+            } catch (error) {
+                console.error("Erreur:", error);
+                alert("Erreur lors de l'envoi de la réponse. Veuillez réessayer.");
+                button.disabled = false;
+                button.textContent = "Envoyer la réponse";
             }
         }
 
-        loadMessages();
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            
+            document.getElementById('login-button').addEventListener('click', login);
+            
+            document.getElementById('password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+            
+            document.getElementById('logout-button').addEventListener('click', logout);
+        });
     </script>
 </body>
 </html>
