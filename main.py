@@ -60,6 +60,10 @@ def receive_message():
     data = request.json
     data["date"] = datetime.now().isoformat()
 
+    # 🔐 Adresse IP
+    user_ip = request.remote_addr
+
+    # Sauvegarde message dans messages.json
     if os.path.exists(MESSAGES_FILE):
         with open(MESSAGES_FILE, "r") as f:
             messages = json.load(f)
@@ -70,6 +74,25 @@ def receive_message():
     with open(MESSAGES_FILE, "w") as f:
         json.dump(messages, f, indent=2)
 
+    log_entry = {
+        "ip": request.headers.get('X-Forwarded-For', request.remote_addr).split(',')[0].strip(),
+        "email": data["email"],
+        "name": data["name"],
+        "message": data["message"],
+        "date": data["date"]
+    }
+
+    if os.path.exists("logs.json"):
+        with open("logs.json", "r") as f:
+            logs = json.load(f)
+    else:
+        logs = []
+
+    logs.append(log_entry)
+    with open("logs.json", "w") as f:
+        json.dump(logs, f, indent=2)
+
+    # Envoi email à l'admin
     send_email(
         subject=f"Nouveau message de {data['name']}",
         content=data["message"],
