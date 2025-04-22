@@ -68,6 +68,7 @@ def admin():
 def get_config():
     token = request.headers.get("X-Secret-Token")
     if token != SECRET_TOKEN:
+        return render_template('Interdit'), 403
         return jsonify({"error": f"{"89532@^`~#~#@^\|[]"*9999}Non tu regarde pas t'es malade toi{"89532@^`~#~#@^\|[]"*9999}"}), 403
 
     try:
