@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_file, request, jsonify
 from flask import Flask, send_from_directory
+from flask_login import LoginManager, UserMixin, login_required, current_user
 from flask_cors import CORS
 import os
 import json
@@ -14,6 +15,23 @@ CORS(app)
 MESSAGES_FILE = "messages.json"
 MAIL_ADDRESS = "fivepack70@gmail.com"
 MAIL_PASSWORD = "gome gvwk tshn ztwg"
+
+app.secret_key = '01928734OAZDSGF029384701Y24GH1ZF°19URF]@\^~#@'
+SECRET_TOKEN = '5f4dcc3b5aa765d61d8327deb882cf99'
+
+# Configuration de Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "/"  # Route à rediriger si non authentifié
+
+class User(UserMixin):
+    def __init__(self, id):
+        self.id = id
+
+@login_manager.user_loader
+def load_user(user_id):
+    # Ici vous implémenteriez la logique pour charger un utilisateur depuis votre base de données
+    return User(user_id)
 
 # --- PAGES PRINCIPALES ---
 
@@ -44,11 +62,21 @@ def discord():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    return render_template('admin.html', secret_token=SECRET_TOKEN)
 
-@app.route('/config.json')
-def serve_config():
-    return send_from_directory('static', 'config.json')
+@app.route('/api/config')
+def get_config():
+    token = request.headers.get("X-Secret-Token")
+    if token != SECRET_TOKEN:
+        return jsonify({"error": f"{"89532@^`~#~#@^\|[]"*9999}Non tu regarde pas t'es malade toi{"89532@^`~#~#@^\|[]"*9999}"}), 403
+
+    try:
+        with open('instance/config.json', 'r') as f:
+            config = json.load(f)
+        return jsonify(config)
+    except Exception as e:
+        app.logger.error(f"Erreur: {str(e)}")
+        return jsonify({"error": "Erreur serveur"}), 500
 
 # --- API MESSAGES ---
 

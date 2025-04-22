@@ -465,50 +465,70 @@
 
     <script>
 
+        const SECRET_TOKEN = "{{ secret_token }}";
+            
         let ADMIN_USERNAME = '';
         let ADMIN_PASSWORD = '';
-
-        fetch('/config.json')
-          .then((response) => response.json())
-          .then((config) => {
+            
+        fetch('/api/config', {
+            headers: {
+                "X-Secret-Token": SECRET_TOKEN
+            }
+        })
+        .then((response) => response.json())
+        .then((config) => {
             ADMIN_USERNAME = config.ADMIN_USERNAME;
             ADMIN_PASSWORD = config.ADMIN_PASSWORD;
             checkAuth(); 
-          })
-          .catch((error) => console.error('Erreur de chargement de config.json', error));
-      
+        })
+        .catch((error) => console.error('Erreur de chargement de config.json', error));
+        
         function checkAuth() {
-          const isAuthenticated = sessionStorage.getItem('adminAuthenticated') === 'true';
+            const isAuthenticated = sessionStorage.getItem('adminAuthenticated') === 'true';
         
-          if (isAuthenticated) {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('admin-panel').style.display = 'block';
-            loadMessages();
-          } else {
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('admin-panel').style.display = 'none';
-          }
+            if (isAuthenticated) {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                loadMessages();
+            } else {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('admin-panel').style.display = 'none';
+            }
         }
-
+        
         function login() {
-          const username = document.getElementById('username').value;
-          const password = document.getElementById('password').value;
-          const errorMessage = document.getElementById('error-message');
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
         
-          if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-            sessionStorage.setItem('adminAuthenticated', 'true');
-            errorMessage.style.display = 'none';
-            checkAuth();
-          } else {
-            errorMessage.style.display = 'block';
-            document.getElementById('password').value = '';
-          }
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminAuthenticated', 'true');
+                errorMessage.style.display = 'none';
+                checkAuth();
+            } else {
+                errorMessage.style.display = 'block';
+                document.getElementById('password').value = '';
+            }
         }
-
+        
         function logout() {
-          sessionStorage.removeItem('adminAuthenticated');
-          checkAuth();
+            sessionStorage.removeItem('adminAuthenticated');
+            checkAuth();
         }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+        
+            document.getElementById('login-button').addEventListener('click', login);
+        
+            document.getElementById('password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+        
+            document.getElementById('logout-button').addEventListener('click', logout);
+        });
         async function loadMessages() {
             try {
                 const res = await fetch("/api/messages");
